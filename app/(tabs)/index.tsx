@@ -1,98 +1,262 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Switch,
+  TouchableOpacity,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { Colors, Shadows } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
+import { useOnboarding } from '@/context/OnboardingContext';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function DashboardHomeScreen() {
+  const router = useRouter();
+  const { data } = useOnboarding();
+  const [isOnline, setIsOnline] = useState(true);
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      {/* Top Header */}
+      <View style={styles.topHeader}>
+        <View style={styles.userInfoRow}>
+          <View style={styles.partnerBadge}>
+            <Ionicons name="person" size={20} color={Colors.primary} />
+          </View>
+          <View>
+            <Text style={styles.greetingText}>Dashboard (Home)</Text>
+            <Text style={styles.partnerName}>{data.fullName || 'Rahul Kumar'}</Text>
+          </View>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* Online Toggle Switch */}
+        <View style={styles.onlineStatusRow}>
+          <Text style={styles.onlineText}>
+            {isOnline ? 'You are Online' : 'You are Offline'}
+          </Text>
+          <Switch
+            value={isOnline}
+            onValueChange={setIsOnline}
+            trackColor={{ false: Colors.gray300, true: Colors.success }}
+            thumbColor={Colors.textWhite}
+          />
+        </View>
+      </View>
+
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Restart Flow banner link */}
+        <TouchableOpacity
+          style={styles.restartBanner}
+          onPress={() => router.replace('/onboarding/splash' as any)}
+        >
+          <Ionicons name="refresh-circle" size={20} color={Colors.primary} />
+          <Text style={styles.restartBannerText}>Restart Onboarding Wizard (Steps 1-14)</Text>
+        </TouchableOpacity>
+
+        {/* Today's Earnings Card */}
+        <View style={[styles.earningsCard, Shadows.small]}>
+          <View style={styles.earningsTop}>
+            <View>
+              <Text style={styles.earningsLabel}>Today's Earnings</Text>
+              <Text style={styles.earningsAmount}>₹ 0</Text>
+              <Text style={styles.jobsCompletedText}>0 Jobs Completed</Text>
+            </View>
+            <View style={styles.walletIconBox}>
+              <Ionicons name="wallet-outline" size={32} color={Colors.primary} />
+            </View>
+          </View>
+        </View>
+
+        {/* Metrics Grid */}
+        <View style={styles.metricsGrid}>
+          <View style={[styles.metricCard, Shadows.small]}>
+            <Text style={styles.metricLabel}>New Requests</Text>
+            <Text style={styles.metricValue}>0</Text>
+          </View>
+
+          <View style={[styles.metricCard, Shadows.small]}>
+            <Text style={styles.metricLabel}>Ongoing Jobs</Text>
+            <Text style={styles.metricValue}>0</Text>
+          </View>
+
+          <View style={[styles.metricCard, Shadows.small]}>
+            <Text style={styles.metricLabel}>Completed Jobs</Text>
+            <Text style={styles.metricValue}>0</Text>
+          </View>
+
+          <View style={[styles.metricCard, Shadows.small]}>
+            <Text style={styles.metricLabel}>Cancelled Jobs</Text>
+            <Text style={styles.metricValue}>0</Text>
+          </View>
+        </View>
+
+        {/* Today's Schedule Section */}
+        <View style={[styles.scheduleCard, Shadows.small]}>
+          <Text style={styles.scheduleTitle}>Today's Schedule</Text>
+          <View style={styles.emptyScheduleBox}>
+            <Ionicons name="calendar-outline" size={40} color={Colors.gray400} />
+            <Text style={styles.emptyScheduleText}>No jobs for today</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: Colors.lightBackground,
+  },
+  topHeader: {
+    backgroundColor: Colors.cardBackground,
+    paddingHorizontal: 20,
+    paddingTop: 54,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.gray200,
+  },
+  userInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  partnerBadge: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: Colors.primaryLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  greetingText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: Colors.textDark,
+  },
+  partnerName: {
+    fontSize: 12,
+    color: Colors.gray500,
+    fontWeight: '500',
+  },
+  onlineStatusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.gray50,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  onlineText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: Colors.textDark,
+  },
+  scrollContent: {
+    padding: 20,
+  },
+  restartBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.primaryLight,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    paddingVertical: 10,
+    borderRadius: 12,
+    marginBottom: 16,
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  restartBannerText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.primary,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  earningsCard: {
+    backgroundColor: '#0F172A',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  earningsTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  earningsLabel: {
+    fontSize: 13,
+    color: Colors.gray400,
+    fontWeight: '600',
+  },
+  earningsAmount: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: Colors.textWhite,
+    marginVertical: 4,
+  },
+  jobsCompletedText: {
+    fontSize: 12,
+    color: Colors.primary,
+    fontWeight: '600',
+  },
+  walletIconBox: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  metricsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 16,
+  },
+  metricCard: {
+    width: '48%',
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.gray200,
+  },
+  metricLabel: {
+    fontSize: 13,
+    color: Colors.gray500,
+    fontWeight: '600',
+  },
+  metricValue: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: Colors.textDark,
+    marginTop: 8,
+  },
+  scheduleCard: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 14,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.gray200,
+  },
+  scheduleTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.textDark,
+    marginBottom: 16,
+  },
+  emptyScheduleBox: {
+    alignItems: 'center',
+    paddingVertical: 24,
+  },
+  emptyScheduleText: {
+    fontSize: 14,
+    color: Colors.gray400,
+    marginTop: 8,
+    fontWeight: '500',
   },
 });
