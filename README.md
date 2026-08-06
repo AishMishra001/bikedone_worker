@@ -1,50 +1,102 @@
-# Welcome to your Expo app 👋
+# Bike Done Partner (Mechanic App) 🚲🔧
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern, high-UX React Native Expo application built for Bike Done Partner mechanics to onboard seamlessly and receive service requests.
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 App Onboarding Flow (Steps 1 to 14 + Dashboard)
 
-   ```bash
-   npm install
-   ```
+Here are the app screenshots showcasing the onboarding flow built step-by-step:
 
-2. Start the app
+### 1. Welcome & Authentication
+| 1. Splash Screen | 3. Verify OTP | 4. Welcome Aboard |
+| :---: | :---: | :---: |
+| ![Splash Screen](./assets/screenshots/step1_splash.png) | ![Verify OTP](./assets/screenshots/step3_verify_otp.png) | ![Welcome Aboard](./assets/screenshots/step4_welcome_aboard.png) |
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+### 2. Basic Information & Shop Setup
+| 5. Basic Details | 6. Shop Type | 7. Shop Information |
+| :---: | :---: | :---: |
+| ![Basic Details](./assets/screenshots/step5_basic_details.png) | ![Shop Type](./assets/screenshots/step6_shop_type.png) | ![Shop Information](./assets/screenshots/step7_shop_info.png) |
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 3. Services, Expertise & Radius
+| 8. Services Offered | 9. Expertise Categories | 10. Service Radius |
+| :---: | :---: | :---: |
+| ![Services Offered](./assets/screenshots/step8_services_offered.png) | ![Expertise Categories](./assets/screenshots/step9_expertise_categories.png) | ![Service Radius](./assets/screenshots/step10_service_radius.png) |
 
-## Get a fresh project
+---
 
-When you're ready, run:
+### 4. Verification & Submission
+| 11. Documents Upload | 12. Bank Details | 13. Review & Submit |
+| :---: | :---: | :---: |
+| ![Documents Upload](./assets/screenshots/step11_documents_upload.png) | ![Bank Details](./assets/screenshots/step12_bank_details.png) | ![Review & Submit](./assets/screenshots/step13_review_submit.png) |
+
+---
+
+### 5. Approval & Dashboard Home
+| 14. Waiting for Approval | 15. Dashboard (Home) |
+| :---: | :---: |
+| ![Waiting for Approval](./assets/screenshots/step14_approval_pending.png) | ![Dashboard Home](./assets/screenshots/step15_dashboard.png) |
+
+---
+
+## ✨ Features
+
+- **End-to-End Onboarding Flow**: 14 pixel-perfect screens built matching the design system specifications.
+- **State Persistence**: Unified `OnboardingContext` keeping form data intact across back and forward navigation.
+- **Quick Demo Mode**: Instant **"Fill Demo Data"** action to populate partner profiles for fast testing.
+- **Interactive Components**: Custom OTP pin inputs, interactive map picker preview, multiselect chips, radio cards, and document upload indicators.
+- **TypeScript & Expo Router**: Strictly typed routes and file-based routing architecture.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Expo](https://expo.dev) `~54.0.35` with [React Native](https://reactnative.dev) `0.81.5`
+- **Routing**: [Expo Router](https://docs.expo.dev/router/introduction) `~6.0.24`
+- **Language**: TypeScript `~5.9.2`
+- **Icons**: `@expo/vector-icons` (Ionicons)
+- **State**: React Context API (`OnboardingContext`)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+Ensure you have Node.js (v18+) and npm installed.
+
+### 2. Installation
+Clone the repository and install dependencies:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 3. Run Locally
 
-## Learn more
+#### Start Development Server:
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+#### Run in Web Browser:
+```bash
+npm run web
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+#### Run on iOS / Android:
+```bash
+# For iOS Simulator
+npm run ios
 
-## Join the community
+# For Android Emulator
+npm run android
+```
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📄 License
+This project is proprietary and maintained for Bike Done Partner app.
